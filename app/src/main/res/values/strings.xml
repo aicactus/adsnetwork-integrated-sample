@@ -4,4 +4,7 @@
     <string name="content_url"><![CDATA[https://storage.googleapis.com/gvabox/media/samples/stock.mp4]]></string>
     <string name="ad_tag_url"><![CDATA[https://staging-dsp-ads-server.aicactus.io/serve-bid-video/eAO4Dt3P5cCD0yJDAtatEDJ8pfSflmI0QgB77YwWraPrjsIUHvwc0SjPgUyOJROnRjpp4vdMIjYnQGmD6GUVXFg_beJG19N9Z3Z92cYaqsSkaBQk5lw5YgZErvtrwaPkFT0uHZuMT20SQWAQgjLkAaKe95h2y_pwSTkTUj-hU0o6fqqJSHbcqTY35yrVxHcoU7d2kV7AroP5Y1yeyMCn8yJvD_l76tYogtGSl1ad1wH6TD1Wzqri4FCTcDDgorWIaZIGEF-T7A8kiIOc8-KbbFAgwOxwBGTku_tFW3V84xEY7lEkgR2jcHvMzsJAKYw9fesT1Rm1bo9vXw50QywW-NV9tu_eN9nJjXn2fsNz8WXl_AkXoKFEqAJ9fSuhLoOqOAYV3X2t9uMX0CbNdu5TWA==.xml?rp=%7B%7BAUCTION_PRICE%7D%7D&gdpr_consent=$%7BGDPR_CONSENT_234%7D&skipdelay=0&vastversions%5B%5D=2]]></string>
 
+    <string name="lbl_container_id">Container ID</string>
+    <string name="btn_try_again">Try Again</string>
+    <string name="lbl_init_sdk_failed">Init SDK Failed</string>
 </resources>

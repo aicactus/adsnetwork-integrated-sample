@@ -21,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="io.aicactus.adsnetwork.CONTAINER_ID"
+            android:value="<<YOUR_CONTAINER_ID>>" />
     </application>
 
 </manifest>

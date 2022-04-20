@@ -1,84 +1,42 @@
 package io.aicactus.imasample
 
-import android.net.Uri
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.ext.ima.ImaAdsLoader
-import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
-import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.upstream.DefaultDataSource
-import com.google.android.exoplayer2.util.Util
+import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import io.aicactus.imasample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var adsLoader: ImaAdsLoader
-    private var playerView: PlayerView? = null
-    private var player: ExoPlayer? = null
+    private lateinit var binding: ActivityMainBinding
+
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        adsLoader = ImaAdsLoader.Builder(this).build()
-        playerView = findViewById(R.id.player_view)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+
+        setupToolbar()
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (Util.SDK_INT > 23) {
-            initializePlayer()
-            playerView?.onResume()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            navController.popBackStack()
+            return true
         }
+        return super.onOptionsItemSelected(item)
     }
 
-    override fun onStop() {
-        super.onStop()
-        if (Util.SDK_INT > 23) {
-            playerView?.onPause()
-            releasePlayer()
-        }
+    private fun setupToolbar() {
+        val appBarConfiguration = AppBarConfiguration.Builder(R.id.homeFragment).build()
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        adsLoader.release()
-    }
-
-    private fun initializePlayer() {
-        val dataSourceFactory = DefaultDataSource.Factory(this)
-        val mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory).apply {
-            setAdsLoaderProvider { adsLoader }
-            setAdViewProvider { playerView }
-        }
-
-        player = ExoPlayer.Builder(this).apply {
-           setMediaSourceFactory(mediaSourceFactory)
-        }.build()
-        playerView?.player = player
-        adsLoader.setPlayer(player)
-
-        val contentUri = Uri.parse(getString(R.string.content_url))
-        val adTagUri = Uri.parse(getString(R.string.ad_tag_url))
-
-        val adsConfiguration = MediaItem.AdsConfiguration.Builder(adTagUri).build()
-        val mediaItem = MediaItem.Builder().apply {
-            setUri(contentUri)
-            setAdsConfiguration(adsConfiguration)
-        }.build()
-
-        player?.apply {
-            setMediaItem(mediaItem)
-            prepare()
-            playWhenReady = false
-        }
-    }
-
-    private fun releasePlayer() {
-        adsLoader.setPlayer(null)
-        playerView?.player = null
-        player?.release()
-        player = null
-    }
 }
