@@ -21,6 +21,10 @@ import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+import io.aiactiv.adnetwork.ads.AdRequest
+import io.aiactiv.adnetwork.ads.AdSize
+import io.aiactiv.adnetwork.ads.VideoAdListener
+import io.aiactiv.adnetwork.ads.VideoAdLoader
 import io.aicactus.imasample.databinding.FragmentExoPlayerBinding
 
 class ExoPlayerFragment: Fragment(), AdsMediaSource.MediaSourceFactory, AdsLoader.AdsLoadedListener, AdErrorEvent.AdErrorListener, AdEvent.AdEventListener {
@@ -43,7 +47,25 @@ class ExoPlayerFragment: Fragment(), AdsMediaSource.MediaSourceFactory, AdsLoade
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initializePlayer()
+
+        val videoAdLoader = VideoAdLoader.Builder(
+            requireContext(),
+            adUnitID = 11,
+            adSize = AdSize.VIDEO
+        ).build()
+
+        videoAdLoader.listener = object : VideoAdListener {
+            override fun onVideoAdFailedToLoad(adUnitID: Int, error: String) {
+                Log.d("VideoAdFragment","Video Ad did fail to load with error: $error")
+            }
+
+            override fun onVideoAdLoaded(adUnitID: Int, vastTagUrl: String) {
+                Log.d("VideoAdFragment","Video Ad Content URL: $vastTagUrl")
+            }
+        }
+
+        val adRequest = AdRequest.Builder().build()
+        videoAdLoader.loadAd(adRequest)
     }
 
     private fun initializePlayer() {
