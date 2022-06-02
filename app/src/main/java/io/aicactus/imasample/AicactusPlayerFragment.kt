@@ -9,9 +9,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.ads.interactivemedia.v3.api.AdErrorEvent
 import com.google.ads.interactivemedia.v3.api.AdEvent
-import io.aicactus.adsnetwork.ads.ima.ImaAdsLoadListener
-import io.aicactus.adsnetwork.ads.ima.PlayerView
-import io.aicactus.adsnetwork.models.bid.Bid
+import io.aiactiv.adnetwork.ads.AdRequest
+import io.aiactiv.adnetwork.ads.AdSize
+import io.aiactiv.adnetwork.ads.ima.ImaAdsLoadListener
+import io.aiactiv.adnetwork.ads.ima.PlayerView
 import io.aicactus.imasample.databinding.FragmentAicactusPlayerBinding
 
 class AicactusPlayerFragment: Fragment() {
@@ -34,15 +35,16 @@ class AicactusPlayerFragment: Fragment() {
         playerView.apply {
             contentUri = "https://storage.googleapis.com/gvabox/media/samples/stock.mp4"
             autoPlay = false
+            initializePlayer()
         }
 
         playerView.listener = object : ImaAdsLoadListener {
-            override fun onImaAdsLoaded(adUnitID: Int, bid: Bid, vastTagUrl: String) {
-                Log.d("VideoAdFragment","Video Ad Content URL: $vastTagUrl")
-            }
-
             override fun onImaAdsFailedToLoad(adUnitID: Int, error: String) {
                 Log.d("VideoAdFragment","Video Ad did fail to load with error: $error")
+            }
+
+            override fun onImaAdsLoaded(adUnitID: Int, vastTagUrl: String) {
+                Log.d("VideoAdFragment","Video Ad Content URL: $vastTagUrl")
             }
 
             override fun onAdErrorEvent(adErrorEvent: AdErrorEvent?) {
@@ -56,7 +58,8 @@ class AicactusPlayerFragment: Fragment() {
             }
         }
 
-        binding.playerView.requestAd(21)
+        val adRequest = AdRequest.Builder().build()
+        binding.playerView.requestAd(11, adRequest, null)
     }
 
     override fun onStop() {

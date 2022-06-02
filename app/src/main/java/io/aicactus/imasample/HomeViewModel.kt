@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.aicactus.adsnetwork.internal.AicactusAdsNetwork
+import io.aiactiv.adnetwork.internal.AiactivAdNetwork
 import kotlinx.coroutines.launch
 
 class HomeViewModel: ViewModel() {
@@ -20,7 +20,7 @@ class HomeViewModel: ViewModel() {
         _loading.value = true
         _errorMessage.value = null
         viewModelScope.launch {
-            AicactusAdsNetwork.setup(context, containerID) { _, errorMessage ->
+            AiactivAdNetwork.setup(context, containerID) { _, errorMessage ->
                 errorMessage?.let {
                     _errorMessage.value = it
                 }
