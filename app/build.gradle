@@ -60,5 +60,5 @@ dependencies {
     //noinspection GradleDependency
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
 
-    implementation 'io.aiactiv:adnetwork:0.3.0'
+    implementation 'io.aiactiv:adnetwork:0.3.0-alpha01'
 }
