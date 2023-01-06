@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.ads.interactivemedia.v3.api.*
+import com.google.ads.interactivemedia.v3.api.AdEvent.AdEventListener
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader
@@ -21,13 +22,18 @@ import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import io.aiactiv.adnetwork.ads.AdRequest
-import io.aiactiv.adnetwork.ads.AdSize
-import io.aiactiv.adnetwork.ads.VideoAdListener
-import io.aiactiv.adnetwork.ads.VideoAdLoader
+import io.aiactiv.sdk.adnetwork.ads.AdRequest
+import io.aiactiv.sdk.adnetwork.ads.AdSize
+import io.aiactiv.sdk.adnetwork.ads.VideoAdListener
+import io.aiactiv.sdk.adnetwork.ads.VideoAdLoader
 import io.aicactus.imasample.databinding.FragmentExoPlayerBinding
 
-class ExoPlayerFragment: Fragment(), AdsMediaSource.MediaSourceFactory, AdsLoader.AdsLoadedListener, AdErrorEvent.AdErrorListener, AdEvent.AdEventListener {
+class ExoPlayerFragment: Fragment(),
+    AdsMediaSource.MediaSourceFactory,
+        AdEventListener,
+        AdErrorEvent.AdErrorListener,
+        AdsLoader.AdsLoadedListener
+{
 
     private lateinit var binding: FragmentExoPlayerBinding
 
@@ -50,7 +56,7 @@ class ExoPlayerFragment: Fragment(), AdsMediaSource.MediaSourceFactory, AdsLoade
 
         val videoAdLoader = VideoAdLoader.Builder(
             requireContext(),
-            adUnitID = 11,
+            adUnitID = 45,
             adSize = AdSize.VIDEO
         ).build()
 
@@ -61,6 +67,7 @@ class ExoPlayerFragment: Fragment(), AdsMediaSource.MediaSourceFactory, AdsLoade
 
             override fun onVideoAdLoaded(adUnitID: Int, vastTagUrl: String) {
                 Log.d("VideoAdFragment","Video Ad Content URL: $vastTagUrl")
+                initializePlayer(vastTagUrl)
             }
         }
 
@@ -68,11 +75,11 @@ class ExoPlayerFragment: Fragment(), AdsMediaSource.MediaSourceFactory, AdsLoade
         videoAdLoader.loadAd(adRequest)
     }
 
-    private fun initializePlayer() {
+    private fun initializePlayer(vastTagUrl: String) {
         val player = ExoPlayerFactory.newSimpleInstance(context)
 
         val contentUri = Uri.parse(getString(R.string.content_url))
-        val adTagUri = Uri.parse(getString(R.string.ad_tag_url))
+        val adTagUri = Uri.parse(vastTagUrl)
 
         imaAdsLoader = ImaAdsLoader(context, adTagUri)
         imaAdsLoader.setPlayer(player)

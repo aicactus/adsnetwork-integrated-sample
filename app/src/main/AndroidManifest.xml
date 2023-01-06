@@ -21,9 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<!--        <meta-data-->
+<!--            android:name="io.aiactiv.adnetwork.CONTAINER_ID"-->
+<!--            android:value="b8a3ccf2-5d49-4912-b2cc-87dc46e10277" />-->
+
         <meta-data
-            android:name="io.aiactiv.adnetwork.CONTAINER_ID"
-            android:value="<<YOUR_CONTAINER_ID>>" />
+            android:name="io.aiactiv.sdk.WRITE_KEY"
+            android:value="b8a3ccf2-5d49-4912-b2cc-87dc46e10277" />
     </application>
 
 </manifest>

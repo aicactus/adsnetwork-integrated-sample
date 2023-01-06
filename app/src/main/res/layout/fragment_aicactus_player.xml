@@ -19,7 +19,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Ad Content URL"/>
 
-        <io.aiactiv.adnetwork.ads.ima.PlayerView
+        <io.aiactiv.sdk.adnetwork.ads.IMAPlayerView
             android:id="@+id/player_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -7,12 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.google.ads.interactivemedia.v3.api.AdErrorEvent
-import com.google.ads.interactivemedia.v3.api.AdEvent
-import io.aiactiv.adnetwork.ads.AdRequest
-import io.aiactiv.adnetwork.ads.AdSize
-import io.aiactiv.adnetwork.ads.ima.ImaAdsLoadListener
-import io.aiactiv.adnetwork.ads.ima.PlayerView
+import io.aiactiv.sdk.adnetwork.ads.AdRequest
+import io.aiactiv.sdk.adnetwork.ads.IMAPlayerView
 import io.aicactus.imasample.databinding.FragmentAicactusPlayerBinding
 
 class AicactusPlayerFragment: Fragment() {
@@ -30,15 +26,14 @@ class AicactusPlayerFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val playerView = binding.root.findViewById<PlayerView>(R.id.player_view)
+        val playerView = binding.root.findViewById<IMAPlayerView>(R.id.player_view)
 
         playerView.apply {
             contentUri = "https://storage.googleapis.com/gvabox/media/samples/stock.mp4"
-            autoPlay = false
             initializePlayer()
         }
 
-        playerView.listener = object : ImaAdsLoadListener {
+        playerView.listener = object : IMAPlayerView.PlayerViewListener {
             override fun onImaAdsFailedToLoad(adUnitID: Int, error: String) {
                 Log.d("VideoAdFragment","Video Ad did fail to load with error: $error")
             }
@@ -47,19 +42,19 @@ class AicactusPlayerFragment: Fragment() {
                 Log.d("VideoAdFragment","Video Ad Content URL: $vastTagUrl")
             }
 
-            override fun onAdErrorEvent(adErrorEvent: AdErrorEvent?) {
-                super.onAdErrorEvent(adErrorEvent)
-                Log.d("VideoAdFragment","Ad Error Event: ${adErrorEvent?.error?.localizedMessage}")
+            override fun onAdErrorEvent(errorTypeName: String?) {
+                super.onAdErrorEvent(errorTypeName)
+                Log.d("VideoAdFragment","Ad Error Event: $errorTypeName")
             }
 
-            override fun onAdEvent(adEvent: AdEvent?) {
-                super.onAdEvent(adEvent)
-                Log.d("VideoAdFragment","Ad Event: ${adEvent?.type?.name}")
+            override fun onAdEvent(adEventName: String?) {
+                super.onAdEvent(adEventName)
+                Log.d("VideoAdFragment","Ad Event: $adEventName")
             }
         }
 
         val adRequest = AdRequest.Builder().build()
-        binding.playerView.requestAd(11, adRequest, null)
+        binding.playerView.requestAd(45, adRequest, null)
     }
 
     override fun onStop() {
