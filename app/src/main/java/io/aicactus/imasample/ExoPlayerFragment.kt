@@ -22,10 +22,7 @@ import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import io.aiactiv.sdk.adnetwork.ads.AdRequest
-import io.aiactiv.sdk.adnetwork.ads.AdSize
-import io.aiactiv.sdk.adnetwork.ads.VideoAdListener
-import io.aiactiv.sdk.adnetwork.ads.VideoAdLoader
+import io.aiactiv.sdk.adnetwork.ads.*
 import io.aicactus.imasample.databinding.FragmentExoPlayerBinding
 
 class ExoPlayerFragment: Fragment(),
@@ -127,6 +124,8 @@ class ExoPlayerFragment: Fragment(),
             addAdEventListener(this@ExoPlayerFragment)
             init()
         }
+
+        val adView = AdView(requireContext())
     }
 
     override fun onAdError(adErrorEvent: AdErrorEvent?) {

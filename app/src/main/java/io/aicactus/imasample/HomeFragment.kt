@@ -47,7 +47,7 @@ class HomeFragment: Fragment() {
         }
 
         binding.btnTryAgain.setOnClickListener {
-            homeViewModel.initAdsNetworkSDK(requireContext(), null)
+            homeViewModel.initAdsNetworkSDK()
         }
 
         homeViewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -72,7 +72,7 @@ class HomeFragment: Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        homeViewModel.initAdsNetworkSDK(requireContext(), null)
+        homeViewModel.initAdsNetworkSDK()
     }
 
     class HomeListAdapter(private val dataSet: Array<String>): RecyclerView.Adapter<HomeListAdapter.ViewHolder>() {

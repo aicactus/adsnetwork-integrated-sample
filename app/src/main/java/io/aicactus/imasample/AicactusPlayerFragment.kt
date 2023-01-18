@@ -1,14 +1,13 @@
 package io.aicactus.imasample
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import io.aiactiv.sdk.adnetwork.ads.AdRequest
-import io.aiactiv.sdk.adnetwork.ads.IMAPlayerView
+import io.aiactiv.sdk.analytics.Traits
+import io.aiactiv.sdk.internal.Properties
 import io.aicactus.imasample.databinding.FragmentAicactusPlayerBinding
 
 class AicactusPlayerFragment: Fragment() {
@@ -26,39 +25,47 @@ class AicactusPlayerFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val playerView = binding.root.findViewById<IMAPlayerView>(R.id.player_view)
 
-        playerView.apply {
-            contentUri = "https://storage.googleapis.com/gvabox/media/samples/stock.mp4"
-            initializePlayer()
-        }
+        val properties = Properties()
 
-        playerView.listener = object : IMAPlayerView.PlayerViewListener {
-            override fun onImaAdsFailedToLoad(adUnitID: Int, error: String) {
-                Log.d("VideoAdFragment","Video Ad did fail to load with error: $error")
-            }
-
-            override fun onImaAdsLoaded(adUnitID: Int, vastTagUrl: String) {
-                Log.d("VideoAdFragment","Video Ad Content URL: $vastTagUrl")
-            }
-
-            override fun onAdErrorEvent(errorTypeName: String?) {
-                super.onAdErrorEvent(errorTypeName)
-                Log.d("VideoAdFragment","Ad Error Event: $errorTypeName")
-            }
-
-            override fun onAdEvent(adEventName: String?) {
-                super.onAdEvent(adEventName)
-                Log.d("VideoAdFragment","Ad Event: $adEventName")
-            }
-        }
-
-        val adRequest = AdRequest.Builder().build()
-        binding.playerView.requestAd(45, adRequest, null)
+        val traits = Traits()
     }
 
-    override fun onStop() {
-        super.onStop()
-        binding.playerView.releasePlayer()
-    }
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        val playerView = binding.root.findViewById<IMAPlayerView>(R.id.player_view)
+//
+//        playerView.apply {
+//            contentUri = "https://storage.googleapis.com/gvabox/media/samples/stock.mp4"
+//            initializePlayer()
+//        }
+//
+//        playerView.listener = object : IMAPlayerView.PlayerViewListener {
+//            override fun onImaAdsFailedToLoad(adUnitID: Int, error: String) {
+//                Log.d("VideoAdFragment","Video Ad did fail to load with error: $error")
+//            }
+//
+//            override fun onImaAdsLoaded(adUnitID: Int, vastTagUrl: String) {
+//                Log.d("VideoAdFragment","Video Ad Content URL: $vastTagUrl")
+//            }
+//
+//            override fun onAdErrorEvent(errorTypeName: String?) {
+//                super.onAdErrorEvent(errorTypeName)
+//                Log.d("VideoAdFragment","Ad Error Event: $errorTypeName")
+//            }
+//
+//            override fun onAdEvent(adEventName: String?) {
+//                super.onAdEvent(adEventName)
+//                Log.d("VideoAdFragment","Ad Event: $adEventName")
+//            }
+//        }
+//
+//        val adRequest = AdRequest.Builder().build()
+//        binding.playerView.requestAd(45, adRequest, null)
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        binding.playerView.releasePlayer()
+//    }
 }
